@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import Column, String, Text, Boolean, DateTime, JSON, Enum as SQLEnum
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
-from models.base import db
+from models.base import db, utc_now
 import uuid
 import enum
 
@@ -52,7 +52,7 @@ class Notification(db.Model):
     priority = Column(SQLEnum(NotificationPriority), nullable=False, default=NotificationPriority.MEDIUM)
     read = Column(Boolean, nullable=False, default=False)
     data = Column(JSON, nullable=True)  # Additional data for the notification
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=utc_now)
     expires_at = Column(DateTime, nullable=True)
     
     def __init__(self, user_id: str, notification_type: NotificationType, title: str, 

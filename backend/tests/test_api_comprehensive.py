@@ -240,8 +240,8 @@ class TestAPIComprehensive:
         assert len(data['reports']) == 4  # Admin should see all 4 reports
         
         # Test personal analytics
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/reporting/personal-analytics',
                              headers=employee_headers,
@@ -287,8 +287,8 @@ class TestAPIComprehensive:
         assert 'action_types' in data
         
         # Test audit report generation
-        start_date = (datetime.utcnow() - timedelta(days=7)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=7)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/audit/reports/generate',
                              headers=finance_headers,
@@ -434,8 +434,8 @@ class TestAPIComprehensive:
     def test_filtering_functionality(self, client, employee_headers):
         """Test filtering in list endpoints"""
         # Test transaction history filtering
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.get(f'/api/accounts/history?start_date={start_date}&end_date={end_date}',
                             headers=employee_headers)
@@ -452,8 +452,8 @@ class TestAPIComprehensive:
     
     def test_export_functionality(self, client, admin_headers):
         """Test export functionality in reporting"""
-        start_date = (datetime.utcnow() - timedelta(days=7)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=7)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         # Test CSV export
         response = client.post('/api/reporting/transaction-summary',

@@ -492,7 +492,7 @@ class TransactionService:
         """
         from datetime import timedelta
         
-        start_date = datetime.utcnow() - timedelta(days=days)
+        start_date = datetime.now(datetime.UTC) - timedelta(days=days)
         
         # Get transactions in period
         transactions = Transaction.query.filter(

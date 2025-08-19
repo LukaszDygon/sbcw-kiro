@@ -123,7 +123,7 @@ class AuditService:
             enhanced_new_values.update(additional_context)
         
         # Add timestamp
-        enhanced_new_values['audit_timestamp'] = datetime.utcnow().isoformat()
+        enhanced_new_values['audit_timestamp'] = datetime.now(datetime.UTC).isoformat()
         
         # Add user context
         user = User.query.get(user_id)
@@ -163,7 +163,7 @@ class AuditService:
         enhanced_details = details.copy() if details else {}
         enhanced_details.update({
             'severity': severity,
-            'system_timestamp': datetime.utcnow().isoformat(),
+            'system_timestamp': datetime.now(datetime.UTC).isoformat(),
             'event_source': 'SoftBankCashWire'
         })
         
@@ -198,7 +198,7 @@ class AuditService:
             'severity': severity,
             'ip_address': ip_address,
             'user_agent': user_agent,
-            'timestamp': datetime.utcnow().isoformat()
+            'timestamp': datetime.now(datetime.UTC).isoformat()
         })
         
         if user_id:
@@ -413,7 +413,7 @@ class AuditService:
                 'end_date': end_date.isoformat(),
                 'duration_days': (end_date - start_date).days
             },
-            'generated_at': datetime.utcnow().isoformat(),
+            'generated_at': datetime.now(datetime.UTC).isoformat(),
             'generated_by': 'AuditService'
         }
         
@@ -668,7 +668,7 @@ class AuditService:
         Returns:
             Dictionary with cleanup results
         """
-        cutoff_date = datetime.utcnow() - timedelta(days=retention_days)
+        cutoff_date = datetime.now(datetime.UTC) - timedelta(days=retention_days)
         
         # Count logs to be deleted
         logs_to_delete = AuditLog.query.filter(
@@ -738,7 +738,7 @@ class AuditService:
         Returns:
             Dictionary with audit statistics
         """
-        start_date = datetime.utcnow() - timedelta(days=days)
+        start_date = datetime.now(datetime.UTC) - timedelta(days=days)
         
         # Get logs in period
         logs = AuditLog.query.filter(AuditLog.created_at >= start_date).all()

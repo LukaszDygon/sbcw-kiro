@@ -474,7 +474,7 @@ def export_audit_logs():
                 'format': 'JSON',
                 'data': result['audit_logs'],
                 'metadata': {
-                    'export_timestamp': datetime.utcnow().isoformat(),
+                    'export_timestamp': datetime.now(datetime.UTC).isoformat(),
                     'record_count': len(result['audit_logs']),
                     'date_range': {
                         'start': start_date.isoformat(),
@@ -505,7 +505,7 @@ def export_audit_logs():
                 'data': csv_data,
                 'headers': list(csv_data[0].keys()) if csv_data else [],
                 'metadata': {
-                    'export_timestamp': datetime.utcnow().isoformat(),
+                    'export_timestamp': datetime.now(datetime.UTC).isoformat(),
                     'record_count': len(csv_data),
                     'date_range': {
                         'start': start_date.isoformat(),

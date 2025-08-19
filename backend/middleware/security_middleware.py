@@ -53,7 +53,7 @@ class RateLimiter:
         Returns:
             Tuple of (is_limited, remaining_requests)
         """
-        now = datetime.utcnow()
+        now = datetime.now(datetime.UTC)
         window_start = now - timedelta(minutes=window_minutes)
         
         # Clean old requests
@@ -87,7 +87,7 @@ class RateLimiter:
     
     def record_failed_attempt(self, identifier: str, attempt_type: str = 'auth'):
         """Record failed authentication or transaction attempt"""
-        now = datetime.utcnow()
+        now = datetime.now(datetime.UTC)
         self.failed_attempts[identifier].append({
             'timestamp': now,
             'type': attempt_type
@@ -102,7 +102,7 @@ class RateLimiter:
     
     def get_failed_attempts(self, identifier: str, hours: int = 1) -> int:
         """Get number of failed attempts in specified time window"""
-        cutoff = datetime.utcnow() - timedelta(hours=hours)
+        cutoff = datetime.now(datetime.UTC) - timedelta(hours=hours)
         return len([
             attempt for attempt in self.failed_attempts[identifier]
             if attempt['timestamp'] > cutoff
@@ -175,7 +175,7 @@ class FraudDetection:
         # Get user's recent transaction history
         recent_transactions = Transaction.query.filter(
             Transaction.sender_id == user_id,
-            Transaction.created_at >= datetime.utcnow() - timedelta(days=7),
+            Transaction.created_at >= datetime.now(datetime.UTC) - timedelta(days=7),
             Transaction.status.in_(['COMPLETED', 'PENDING'])
         ).all()
         
@@ -198,7 +198,7 @@ class FraudDetection:
         # Check transaction frequency
         today_transactions = [
             t for t in recent_transactions
-            if t.created_at.date() == datetime.utcnow().date()
+            if t.created_at.date() == datetime.now(datetime.UTC).date()
         ]
         
         if len(today_transactions) > 20:
@@ -211,7 +211,7 @@ class FraudDetection:
         # Check for rapid successive transactions
         if len(recent_transactions) >= 2:
             last_transaction = max(recent_transactions, key=lambda t: t.created_at)
-            time_since_last = datetime.utcnow() - last_transaction.created_at
+            time_since_last = datetime.now(datetime.UTC) - last_transaction.created_at
             
             if time_since_last.total_seconds() < 60:  # Less than 1 minute
                 risk_score += 25
@@ -271,7 +271,7 @@ class FraudDetection:
         recent_logins = AuditLog.query.filter(
             AuditLog.user_id == user_id,
             AuditLog.action_type.in_(['USER_LOGIN', 'LOGIN_FAILED']),
-            AuditLog.created_at >= datetime.utcnow() - timedelta(days=7)
+            AuditLog.created_at >= datetime.now(datetime.UTC) - timedelta(days=7)
         ).order_by(AuditLog.created_at.desc()).limit(50).all()
         
         if recent_logins:
@@ -297,7 +297,7 @@ class FraudDetection:
             
             recent_failures = len([
                 log for log in failed_logins
-                if log.created_at >= datetime.utcnow() - timedelta(hours=1)
+                if log.created_at >= datetime.now(datetime.UTC) - timedelta(hours=1)
             ])
             
             if recent_failures >= 5:

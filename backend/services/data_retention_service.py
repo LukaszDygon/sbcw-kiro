@@ -94,7 +94,7 @@ class DataRetentionService:
         """
         try:
             retention_days = cls.RETENTION_POLICIES['expired_money_requests']
-            cutoff_date = datetime.utcnow() - timedelta(days=retention_days)
+            cutoff_date = datetime.now(datetime.UTC) - timedelta(days=retention_days)
             
             # Find expired money requests to clean up
             expired_requests = MoneyRequest.query.filter(
@@ -151,7 +151,7 @@ class DataRetentionService:
         """
         try:
             retention_days = cls.RETENTION_POLICIES['user_notifications']
-            cutoff_date = datetime.utcnow() - timedelta(days=retention_days)
+            cutoff_date = datetime.now(datetime.UTC) - timedelta(days=retention_days)
             
             # Find old notifications to clean up
             old_notifications = Notification.query.filter(
@@ -199,7 +199,7 @@ class DataRetentionService:
         """
         try:
             retention_days = cls.RETENTION_POLICIES['failed_transactions']
-            cutoff_date = datetime.utcnow() - timedelta(days=retention_days)
+            cutoff_date = datetime.now(datetime.UTC) - timedelta(days=retention_days)
             
             # Find failed transactions to clean up
             failed_transactions = Transaction.query.filter(
@@ -251,7 +251,7 @@ class DataRetentionService:
         """
         try:
             retention_days = cls.RETENTION_POLICIES['audit_logs']
-            cutoff_date = datetime.utcnow() - timedelta(days=retention_days)
+            cutoff_date = datetime.now(datetime.UTC) - timedelta(days=retention_days)
             
             # Count audit logs that would be archived
             old_logs_count = AuditLog.query.filter(
@@ -312,7 +312,7 @@ class DataRetentionService:
             
             # Count cleanup candidates
             for policy_name, retention_days in cls.RETENTION_POLICIES.items():
-                cutoff_date = datetime.utcnow() - timedelta(days=retention_days)
+                cutoff_date = datetime.now(datetime.UTC) - timedelta(days=retention_days)
                 
                 if policy_name == 'expired_money_requests':
                     count = MoneyRequest.query.filter(
@@ -351,7 +351,7 @@ class DataRetentionService:
             return {
                 'success': True,
                 'status': status,
-                'generated_at': datetime.utcnow().isoformat()
+                'generated_at': datetime.now(datetime.UTC).isoformat()
             }
             
         except Exception as e:
@@ -403,7 +403,7 @@ class DataRetentionService:
             
             # Overall success depends on whether any critical errors occurred
             results['success'] = len(results['errors']) == 0
-            results['completed_at'] = datetime.utcnow().isoformat()
+            results['completed_at'] = datetime.now(datetime.UTC).isoformat()
             
             logger.info(f"Full cleanup completed: {results['total_cleaned']} items cleaned, {len(results['errors'])} errors")
             
@@ -475,7 +475,7 @@ class DataRetentionService:
             return {
                 'success': True,
                 'compliance': compliance_results,
-                'checked_at': datetime.utcnow().isoformat()
+                'checked_at': datetime.now(datetime.UTC).isoformat()
             }
             
         except Exception as e:

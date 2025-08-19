@@ -400,7 +400,7 @@ class TestMoneyRequestAPIIntegration:
                 recipient_id=recipient.id,
                 amount=Decimal('25.00'),
                 note='Lunch money',
-                expires_at=datetime.utcnow() + timedelta(days=7)
+                expires_at=datetime.now(datetime.UTC) + timedelta(days=7)
             )
             db.session.add(request)
             db.session.commit()
@@ -435,7 +435,7 @@ class TestMoneyRequestAPIIntegration:
                 requester_id=requester.id,
                 recipient_id=recipient.id,
                 amount=Decimal('25.00'),
-                expires_at=datetime.utcnow() + timedelta(days=7)
+                expires_at=datetime.now(datetime.UTC) + timedelta(days=7)
             )
             db.session.add(request)
             db.session.commit()
@@ -470,13 +470,13 @@ class TestMoneyRequestAPIIntegration:
                 requester_id=requester.id,
                 recipient_id=recipient.id,
                 amount=Decimal('25.00'),
-                expires_at=datetime.utcnow() + timedelta(days=7)
+                expires_at=datetime.now(datetime.UTC) + timedelta(days=7)
             )
             request2 = MoneyRequest(
                 requester_id=recipient.id,
                 recipient_id=requester.id,
                 amount=Decimal('15.00'),
-                expires_at=datetime.utcnow() + timedelta(days=5)
+                expires_at=datetime.now(datetime.UTC) + timedelta(days=5)
             )
             db.session.add_all([request1, request2])
             db.session.commit()

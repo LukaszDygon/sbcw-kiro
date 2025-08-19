@@ -67,7 +67,7 @@ class Notification(db.Model):
         self.data = data or {}
         
         if expires_in_days:
-            self.expires_at = datetime.utcnow() + timedelta(days=expires_in_days)
+            self.expires_at = datetime.now(datetime.UTC) + timedelta(days=expires_in_days)
     
     def mark_as_read(self):
         """Mark notification as read"""
@@ -77,7 +77,7 @@ class Notification(db.Model):
         """Check if notification is expired"""
         if not self.expires_at:
             return False
-        return datetime.utcnow() > self.expires_at
+        return datetime.now(datetime.UTC) > self.expires_at
     
     def to_dict(self) -> dict:
         """Convert notification to dictionary"""

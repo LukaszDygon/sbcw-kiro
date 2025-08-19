@@ -130,7 +130,7 @@ class InputValidator:
         else:
             raise ValidationError(f'{field_name} must be a datetime', 'INVALID_TYPE')
         
-        now = datetime.utcnow()
+        now = datetime.now(datetime.UTC)
         
         if future_only and dt_value <= now:
             raise ValidationError(f'{field_name} must be in the future', 'MUST_BE_FUTURE')

@@ -106,7 +106,7 @@ class ReportingService:
                 'average_contribution_amount': str(avg_contribution_amount)
             },
             'category_breakdown': categories,
-            'generated_at': datetime.utcnow().isoformat()
+            'generated_at': datetime.now(datetime.UTC).isoformat()
         }    
 
     @classmethod
@@ -219,7 +219,7 @@ class ReportingService:
                 'active_users': len([u for u in user_activities if u['transaction_activity']['total_transactions'] > 0])
             },
             'user_activities': user_activities,
-            'generated_at': datetime.utcnow().isoformat()
+            'generated_at': datetime.now(datetime.UTC).isoformat()
         }
 
     @classmethod
@@ -281,7 +281,7 @@ class ReportingService:
                 'average_contribution': str(avg_contribution),
                 'created_at': event.created_at.isoformat(),
                 'deadline': event.deadline.isoformat() if event.deadline else None,
-                'is_expired': event.deadline < datetime.utcnow() if event.deadline else False
+                'is_expired': event.deadline < datetime.now(datetime.UTC) if event.deadline else False
             })
             
             total_target_amount += event.target_amount
@@ -314,7 +314,7 @@ class ReportingService:
                 'overall_progress_percentage': round(overall_progress, 2)
             },
             'events': event_data,
-            'generated_at': datetime.utcnow().isoformat()
+            'generated_at': datetime.now(datetime.UTC).isoformat()
         }
 
     @classmethod
@@ -458,7 +458,7 @@ class ReportingService:
                 'contributions_count': len(event_contributions),
                 'total_contributed': str(total_contributions)
             },
-            'generated_at': datetime.utcnow().isoformat()
+            'generated_at': datetime.now(datetime.UTC).isoformat()
         }
     
     @classmethod

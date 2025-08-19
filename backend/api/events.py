@@ -76,7 +76,7 @@ def create_event():
         if data.get('deadline'):
             try:
                 deadline = datetime.fromisoformat(data['deadline'].replace('Z', '+00:00'))
-                if deadline <= datetime.utcnow():
+                if deadline <= datetime.now(datetime.UTC):
                     return jsonify({
                         'error': {
                             'code': 'INVALID_DEADLINE',

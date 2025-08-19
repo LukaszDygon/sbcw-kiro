@@ -322,7 +322,7 @@ class TestEventAccountModel:
                 name="Team Lunch",
                 description="Monthly team lunch",
                 target_amount=Decimal('200.00'),
-                deadline=datetime.utcnow() + timedelta(days=7)
+                deadline=datetime.now(datetime.UTC) + timedelta(days=7)
             )
             db.session.add(event)
             db.session.commit()
@@ -413,7 +413,7 @@ class TestEventAccountModel:
                 creator_id=creator.id,
                 name="Future Event",
                 description="Event with future deadline",
-                deadline=datetime.utcnow() + timedelta(days=7)
+                deadline=datetime.now(datetime.UTC) + timedelta(days=7)
             )
             assert future_event.is_deadline_valid()
             
@@ -422,7 +422,7 @@ class TestEventAccountModel:
                 creator_id=creator.id,
                 name="Past Event",
                 description="Event with past deadline",
-                deadline=datetime.utcnow() - timedelta(days=1)
+                deadline=datetime.now(datetime.UTC) - timedelta(days=1)
             )
             assert not past_event.is_deadline_valid()
     
@@ -460,7 +460,7 @@ class TestMoneyRequestModel:
                 recipient_id=recipient.id,
                 amount=Decimal('50.00'),
                 note='Lunch money',
-                expires_at=datetime.utcnow() + timedelta(days=7)
+                expires_at=datetime.now(datetime.UTC) + timedelta(days=7)
             )
             db.session.add(request)
             db.session.commit()
@@ -484,7 +484,7 @@ class TestMoneyRequestModel:
                 requester_id=requester.id,
                 recipient_id=recipient.id,
                 amount=Decimal('50.00'),
-                expires_at=datetime.utcnow() + timedelta(days=7)
+                expires_at=datetime.now(datetime.UTC) + timedelta(days=7)
             )
             db.session.add(request)
             db.session.commit()
@@ -505,7 +505,7 @@ class TestMoneyRequestModel:
                 requester_id=requester.id,
                 recipient_id=recipient.id,
                 amount=Decimal('25.00'),
-                expires_at=datetime.utcnow() + timedelta(days=7)
+                expires_at=datetime.now(datetime.UTC) + timedelta(days=7)
             )
             declined_request.decline()
             assert declined_request.status == RequestStatus.DECLINED
@@ -524,7 +524,7 @@ class TestMoneyRequestModel:
                 requester_id=requester.id,
                 recipient_id=recipient.id,
                 amount=Decimal('50.00'),
-                expires_at=datetime.utcnow() - timedelta(days=1)
+                expires_at=datetime.now(datetime.UTC) - timedelta(days=1)
             )
             db.session.add(expired_request)
             db.session.commit()
@@ -547,7 +547,7 @@ class TestMoneyRequestModel:
                 requester_id=requester.id,
                 recipient_id=recipient.id,
                 amount=Decimal('50.00'),
-                expires_at=datetime.utcnow() + timedelta(days=7)
+                expires_at=datetime.now(datetime.UTC) + timedelta(days=7)
             )
             db.session.add(request)
             db.session.commit()

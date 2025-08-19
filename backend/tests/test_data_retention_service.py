@@ -36,7 +36,7 @@ class TestDataRetentionService:
             db.session.add(self.test_account)
             
             # Create old failed transaction
-            old_date = datetime.utcnow() - timedelta(days=400)
+            old_date = datetime.now(datetime.UTC) - timedelta(days=400)
             self.old_failed_transaction = Transaction(
                 id='old-failed-transaction',
                 sender_id=self.test_user.id,
@@ -54,7 +54,7 @@ class TestDataRetentionService:
                 recipient_id=self.test_user.id,
                 amount=Decimal('25.00'),
                 status=TransactionStatus.FAILED,
-                created_at=datetime.utcnow() - timedelta(days=30)
+                created_at=datetime.now(datetime.UTC) - timedelta(days=30)
             )
             db.session.add(self.recent_failed_transaction)
             
@@ -76,7 +76,7 @@ class TestDataRetentionService:
                 recipient_id=self.test_user.id,
                 amount=Decimal('30.00'),
                 status=RequestStatus.EXPIRED,
-                created_at=datetime.utcnow() - timedelta(days=30)
+                created_at=datetime.now(datetime.UTC) - timedelta(days=30)
             )
             db.session.add(self.recent_expired_request)
             
@@ -96,7 +96,7 @@ class TestDataRetentionService:
                 user_id=self.test_user.id,
                 title='Recent Notification',
                 message='This is a recent notification',
-                created_at=datetime.utcnow() - timedelta(days=30)
+                created_at=datetime.now(datetime.UTC) - timedelta(days=30)
             )
             db.session.add(self.recent_notification)
             
@@ -107,7 +107,7 @@ class TestDataRetentionService:
                 action_type='TEST_ACTION',
                 entity_type='TEST_ENTITY',
                 entity_id='test-entity-id',
-                created_at=datetime.utcnow() - timedelta(days=3000)  # Very old
+                created_at=datetime.now(datetime.UTC) - timedelta(days=3000)  # Very old
             )
             db.session.add(self.old_audit_log)
             
@@ -339,7 +339,7 @@ class TestDataRetentionService:
         """Test compliance validation with violations"""
         with app.app_context():
             # Create many old items to trigger violations
-            old_date = datetime.utcnow() - timedelta(days=400)
+            old_date = datetime.now(datetime.UTC) - timedelta(days=400)
             
             # Create many old failed transactions
             for i in range(150):  # Above violation threshold

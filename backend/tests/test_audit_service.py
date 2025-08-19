@@ -268,8 +268,8 @@ class TestAuditService:
             db.session.commit()
             
             # Test generating report
-            start_date = datetime.utcnow() - timedelta(days=1)
-            end_date = datetime.utcnow() + timedelta(days=1)
+            start_date = datetime.now(datetime.UTC) - timedelta(days=1)
+            end_date = datetime.now(datetime.UTC) + timedelta(days=1)
             
             report = AuditService.generate_audit_report(
                 start_date=start_date,
@@ -445,8 +445,8 @@ class TestAuditService:
             db.session.commit()
             
             # Test CSV export
-            start_date = datetime.utcnow() - timedelta(days=1)
-            end_date = datetime.utcnow() + timedelta(days=1)
+            start_date = datetime.now(datetime.UTC) - timedelta(days=1)
+            end_date = datetime.now(datetime.UTC) + timedelta(days=1)
             
             csv_export = AuditService.export_audit_logs(
                 start_date=start_date,
@@ -489,7 +489,7 @@ class TestAuditService:
                 ip_address='192.168.1.1'
             )
             # Manually set old created_at date
-            old_log.created_at = datetime.utcnow() - timedelta(days=400)
+            old_log.created_at = datetime.now(datetime.UTC) - timedelta(days=400)
             
             # Create recent audit log
             recent_log = AuditLog(

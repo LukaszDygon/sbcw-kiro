@@ -362,7 +362,7 @@ class AccountService:
         available_balance = cls.get_available_balance(user_id)
         
         # Calculate transaction statistics
-        thirty_days_ago = datetime.utcnow() - timedelta(days=30)
+        thirty_days_ago = datetime.now(datetime.UTC) - timedelta(days=30)
         
         # Total transactions in last 30 days
         recent_transactions = Transaction.query.filter(
@@ -447,7 +447,7 @@ class AccountService:
         Returns:
             Dictionary with spending analytics
         """
-        start_date = datetime.utcnow() - timedelta(days=period_days)
+        start_date = datetime.now(datetime.UTC) - timedelta(days=period_days)
         
         # Get transactions where user is sender
         transactions = Transaction.query.filter(
@@ -502,7 +502,7 @@ class AccountService:
         return {
             'period_days': period_days,
             'start_date': start_date.isoformat(),
-            'end_date': datetime.utcnow().isoformat(),
+            'end_date': datetime.now(datetime.UTC).isoformat(),
             'total_spent': str(total_spent),
             'total_transactions': total_transactions,
             'average_transaction': str(total_spent / total_transactions) if total_transactions > 0 else '0.00',
@@ -560,7 +560,7 @@ class AccountService:
                 Transaction.sender_id == user_id,
                 Transaction.recipient_id == user_id
             ),
-            Transaction.created_at >= datetime.utcnow() - timedelta(days=7)
+            Transaction.created_at >= datetime.now(datetime.UTC) - timedelta(days=7)
         ).count()
         
         if recent_transactions == 0:

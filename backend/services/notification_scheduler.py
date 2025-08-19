@@ -18,8 +18,8 @@ class NotificationScheduler:
         """Check for events with approaching deadlines and send notifications"""
         try:
             # Get events with deadlines in the next 24 hours that are still active
-            tomorrow = datetime.utcnow() + timedelta(days=1)
-            today = datetime.utcnow()
+            tomorrow = datetime.now(datetime.UTC) + timedelta(days=1)
+            today = datetime.now(datetime.UTC)
             
             events_with_approaching_deadlines = db.session.query(EventAccount).filter(
                 and_(
@@ -146,7 +146,7 @@ class NotificationScheduler:
                     title=title,
                     message=message,
                     alert_data={
-                        'timestamp': datetime.utcnow().isoformat(),
+                        'timestamp': datetime.now(datetime.UTC).isoformat(),
                         'severity': 'HIGH'
                     }
                 )
@@ -170,7 +170,7 @@ class NotificationScheduler:
     def cleanup_old_notifications(days_old: int = 30):
         """Clean up old read notifications to keep database size manageable"""
         try:
-            cutoff_date = datetime.utcnow() - timedelta(days=days_old)
+            cutoff_date = datetime.now(datetime.UTC) - timedelta(days=days_old)
             
             # Delete old read notifications
             from models import Notification

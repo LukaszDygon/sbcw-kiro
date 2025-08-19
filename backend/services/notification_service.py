@@ -65,7 +65,7 @@ class NotificationService:
             query = query.filter(
                 or_(
                     Notification.expires_at.is_(None),
-                    Notification.expires_at > datetime.utcnow()
+                    Notification.expires_at > datetime.now(datetime.UTC)
                 )
             )
             
@@ -174,7 +174,7 @@ class NotificationService:
                     Notification.read == False,
                     or_(
                         Notification.expires_at.is_(None),
-                        Notification.expires_at > datetime.utcnow()
+                        Notification.expires_at > datetime.now(datetime.UTC)
                     )
                 )
             ).count()
@@ -191,7 +191,7 @@ class NotificationService:
             count = db.session.query(Notification).filter(
                 and_(
                     Notification.expires_at.isnot(None),
-                    Notification.expires_at < datetime.utcnow()
+                    Notification.expires_at < datetime.now(datetime.UTC)
                 )
             ).delete()
             

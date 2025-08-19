@@ -256,7 +256,7 @@ def rate_limit_by_user(max_requests=100, window_minutes=60):
                 return f(*args, **kwargs)  # Skip rate limiting if not authenticated
             
             user_id = g.current_user_id
-            now = datetime.utcnow()
+            now = datetime.now(datetime.UTC)
             window_start = now - timedelta(minutes=window_minutes)
             
             # Clean old requests

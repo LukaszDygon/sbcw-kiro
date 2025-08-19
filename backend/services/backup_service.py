@@ -62,7 +62,7 @@ class BackupService:
         """
         try:
             backup_dir = cls._ensure_backup_directory()
-            timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(datetime.UTC).strftime("%Y%m%d_%H%M%S")
             
             if backup_name:
                 backup_filename = f"{backup_name}_{timestamp}.db.gz.enc"
@@ -108,7 +108,7 @@ class BackupService:
             metadata = {
                 'backup_id': timestamp,
                 'filename': backup_filename,
-                'created_at': datetime.utcnow().isoformat(),
+                'created_at': datetime.now(datetime.UTC).isoformat(),
                 'size_bytes': backup_size,
                 'size_mb': round(backup_size / (1024 * 1024), 2),
                 'encrypted': True,
@@ -278,7 +278,7 @@ class BackupService:
             if not backup_dir.exists():
                 return {'success': True, 'cleaned_count': 0, 'freed_mb': 0}
             
-            cutoff_date = datetime.utcnow() - timedelta(days=cls.RETENTION_DAYS)
+            cutoff_date = datetime.now(datetime.UTC) - timedelta(days=cls.RETENTION_DAYS)
             cleaned_count = 0
             freed_bytes = 0
             

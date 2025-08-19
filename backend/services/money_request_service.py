@@ -68,7 +68,7 @@ class MoneyRequestService:
             MoneyRequest.requester_id == requester_id,
             MoneyRequest.recipient_id == recipient_id,
             MoneyRequest.status == RequestStatus.PENDING,
-            MoneyRequest.expires_at > datetime.utcnow()
+            MoneyRequest.expires_at > datetime.now(datetime.UTC)
         ).first()
         
         if existing_request:
@@ -120,7 +120,7 @@ class MoneyRequestService:
             return {
                 'success': True,
                 'request': money_request.to_dict(include_names=True),
-                'expires_in_hours': int((money_request.expires_at - datetime.utcnow()).total_seconds() / 3600)
+                'expires_in_hours': int((money_request.expires_at - datetime.now(datetime.UTC)).total_seconds() / 3600)
             }
             
         except Exception as e:
@@ -450,7 +450,7 @@ class MoneyRequestService:
         Returns:
             Dictionary with request statistics
         """
-        start_date = datetime.utcnow() - timedelta(days=days)
+        start_date = datetime.now(datetime.UTC) - timedelta(days=days)
         
         # Get requests in period
         sent_requests = MoneyRequest.query.filter(
@@ -563,12 +563,12 @@ class MoneyRequestService:
         Returns:
             List of expiring requests
         """
-        expiry_threshold = datetime.utcnow() + timedelta(hours=hours)
+        expiry_threshold = datetime.now(datetime.UTC) + timedelta(hours=hours)
         
         return MoneyRequest.query.filter(
             MoneyRequest.status == RequestStatus.PENDING,
             MoneyRequest.expires_at <= expiry_threshold,
-            MoneyRequest.expires_at > datetime.utcnow()
+            MoneyRequest.expires_at > datetime.now(datetime.UTC)
         ).all()
     
     @classmethod
@@ -634,7 +634,7 @@ class MoneyRequestService:
                 MoneyRequest.requester_id == requester_id,
                 MoneyRequest.recipient_id == recipient_id,
                 MoneyRequest.status == RequestStatus.PENDING,
-                MoneyRequest.expires_at > datetime.utcnow()
+                MoneyRequest.expires_at > datetime.now(datetime.UTC)
             ).first()
             
             if existing_request:

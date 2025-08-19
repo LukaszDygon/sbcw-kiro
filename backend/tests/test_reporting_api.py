@@ -62,14 +62,14 @@ class TestReportingAPI:
             transaction_type=TransactionType.TRANSFER,
             status=TransactionStatus.COMPLETED,
             category='Food',
-            created_at=datetime.utcnow() - timedelta(days=5)
+            created_at=datetime.now(datetime.UTC) - timedelta(days=5)
         )
         db_session.add(transaction)
         db_session.commit()
         
         # Generate report
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/reporting/transaction-summary', 
                              headers=admin_headers,
@@ -96,7 +96,7 @@ class TestReportingAPI:
             amount=Decimal('100.00'),
             transaction_type=TransactionType.TRANSFER,
             status=TransactionStatus.COMPLETED,
-            created_at=datetime.utcnow() - timedelta(days=5)
+            created_at=datetime.now(datetime.UTC) - timedelta(days=5)
         )
         
         transaction2 = Transaction(
@@ -105,15 +105,15 @@ class TestReportingAPI:
             amount=Decimal('50.00'),
             transaction_type=TransactionType.TRANSFER,
             status=TransactionStatus.COMPLETED,
-            created_at=datetime.utcnow() - timedelta(days=3)
+            created_at=datetime.now(datetime.UTC) - timedelta(days=3)
         )
         
         db_session.add_all([transaction1, transaction2])
         db_session.commit()
         
         # Generate user-specific report
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/reporting/transaction-summary',
                              headers=admin_headers,
@@ -140,13 +140,13 @@ class TestReportingAPI:
             transaction_type=TransactionType.TRANSFER,
             status=TransactionStatus.COMPLETED,
             category='Food',
-            created_at=datetime.utcnow() - timedelta(days=5)
+            created_at=datetime.now(datetime.UTC) - timedelta(days=5)
         )
         db_session.add(transaction)
         db_session.commit()
         
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/reporting/transaction-summary',
                              headers=admin_headers,
@@ -171,13 +171,13 @@ class TestReportingAPI:
             amount=Decimal('75.00'),
             transaction_type=TransactionType.TRANSFER,
             status=TransactionStatus.COMPLETED,
-            created_at=datetime.utcnow() - timedelta(days=5)
+            created_at=datetime.now(datetime.UTC) - timedelta(days=5)
         )
         db_session.add(transaction)
         db_session.commit()
         
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/reporting/user-activity',
                              headers=admin_headers,
@@ -194,8 +194,8 @@ class TestReportingAPI:
     
     def test_generate_user_activity_report_employee_denied(self, client, employee_headers):
         """Test employee access denied for user activity report"""
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/reporting/user-activity',
                              headers=employee_headers,
@@ -220,13 +220,13 @@ class TestReportingAPI:
             target_amount=Decimal('500.00'),
             creator_id=user1.id,
             status=EventStatus.ACTIVE,
-            created_at=datetime.utcnow() - timedelta(days=10)
+            created_at=datetime.now(datetime.UTC) - timedelta(days=10)
         )
         db_session.add(event)
         db_session.commit()
         
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/reporting/event-accounts',
                              headers=admin_headers,
@@ -254,7 +254,7 @@ class TestReportingAPI:
             transaction_type=TransactionType.TRANSFER,
             status=TransactionStatus.COMPLETED,
             category='Food',
-            created_at=datetime.utcnow() - timedelta(days=5)
+            created_at=datetime.now(datetime.UTC) - timedelta(days=5)
         )
         
         transaction2 = Transaction(
@@ -264,14 +264,14 @@ class TestReportingAPI:
             transaction_type=TransactionType.TRANSFER,
             status=TransactionStatus.COMPLETED,
             category='Entertainment',
-            created_at=datetime.utcnow() - timedelta(days=3)
+            created_at=datetime.now(datetime.UTC) - timedelta(days=3)
         )
         
         db_session.add_all([transaction1, transaction2])
         db_session.commit()
         
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/reporting/personal-analytics',
                              headers=employee_headers,
@@ -290,8 +290,8 @@ class TestReportingAPI:
         """Test employee cannot access other user's analytics"""
         user2 = sample_users[1]
         
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/reporting/personal-analytics',
                              headers=employee_headers,
@@ -312,7 +312,7 @@ class TestReportingAPI:
                              headers=admin_headers,
                              json={
                                  'start_date': 'invalid-date',
-                                 'end_date': datetime.utcnow().isoformat()
+                                 'end_date': datetime.now(datetime.UTC).isoformat()
                              })
         
         assert response.status_code == 400
@@ -325,7 +325,7 @@ class TestReportingAPI:
         response = client.post('/api/reporting/transaction-summary',
                              headers=admin_headers,
                              json={
-                                 'start_date': datetime.utcnow().isoformat()
+                                 'start_date': datetime.now(datetime.UTC).isoformat()
                                  # Missing end_date
                              })
         
@@ -336,7 +336,7 @@ class TestReportingAPI:
     
     def test_date_range_validation(self, client, admin_headers):
         """Test date range validation"""
-        end_date = datetime.utcnow()
+        end_date = datetime.now(datetime.UTC)
         start_date = end_date + timedelta(days=1)  # Start after end
         
         response = client.post('/api/reporting/transaction-summary',
@@ -371,13 +371,13 @@ class TestReportingAPI:
             amount=Decimal('100.00'),
             transaction_type=TransactionType.TRANSFER,
             status=TransactionStatus.COMPLETED,
-            created_at=datetime.utcnow() - timedelta(days=5)
+            created_at=datetime.now(datetime.UTC) - timedelta(days=5)
         )
         db_session.add(transaction)
         db_session.commit()
         
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/reporting/transaction-summary',
                              headers=admin_headers,

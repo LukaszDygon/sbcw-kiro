@@ -46,8 +46,8 @@ class TestSecurityAPI:
     
     def test_analyze_security_events_finance_access(self, client, finance_headers):
         """Test security event analysis with finance access"""
-        start_date = (datetime.utcnow() - timedelta(days=7)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=7)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/security/analysis/events',
                              headers=finance_headers,
@@ -68,8 +68,8 @@ class TestSecurityAPI:
     def test_analyze_security_events_invalid_dates(self, client, finance_headers):
         """Test security event analysis with invalid dates"""
         # Test with start_date after end_date
-        start_date = datetime.utcnow().isoformat()
-        end_date = (datetime.utcnow() - timedelta(days=1)).isoformat()
+        start_date = datetime.now(datetime.UTC).isoformat()
+        end_date = (datetime.now(datetime.UTC) - timedelta(days=1)).isoformat()
         
         response = client.post('/api/security/analysis/events',
                              headers=finance_headers,
@@ -85,7 +85,7 @@ class TestSecurityAPI:
     
     def test_analyze_security_events_date_range_too_large(self, client, finance_headers):
         """Test security event analysis with date range too large"""
-        end_date = datetime.utcnow()
+        end_date = datetime.now(datetime.UTC)
         start_date = end_date - timedelta(days=100)  # More than 90 days
         
         response = client.post('/api/security/analysis/events',
@@ -130,8 +130,8 @@ class TestSecurityAPI:
     
     def test_generate_compliance_report_admin_access(self, client, admin_headers):
         """Test compliance report generation with admin access"""
-        start_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=30)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/security/compliance/report',
                              headers=admin_headers,
@@ -245,8 +245,8 @@ class TestSecurityAPI:
         user = sample_users[0]
         
         # Test event analysis
-        start_date = (datetime.utcnow() - timedelta(days=7)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=7)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/security/analysis/events',
                              headers=finance_headers,
@@ -277,7 +277,7 @@ class TestSecurityAPI:
                              headers=finance_headers,
                              json={
                                  'start_date': 'invalid-date',
-                                 'end_date': datetime.utcnow().isoformat()
+                                 'end_date': datetime.now(datetime.UTC).isoformat()
                              })
         
         assert response.status_code == 400
@@ -342,7 +342,7 @@ class TestSecurityAPI:
             action_type='LOGIN_FAILED',
             entity_type='User',
             ip_address='192.168.1.100',
-            created_at=datetime.utcnow() - timedelta(hours=2)
+            created_at=datetime.now(datetime.UTC) - timedelta(hours=2)
         )
         
         security_log2 = AuditLog(
@@ -350,15 +350,15 @@ class TestSecurityAPI:
             action_type='RATE_LIMIT_EXCEEDED',
             entity_type='SecurityEvent',
             ip_address='192.168.1.100',
-            created_at=datetime.utcnow() - timedelta(hours=1)
+            created_at=datetime.now(datetime.UTC) - timedelta(hours=1)
         )
         
         db_session.add_all([security_log1, security_log2])
         db_session.commit()
         
         # Analyze security events
-        start_date = (datetime.utcnow() - timedelta(days=1)).isoformat()
-        end_date = datetime.utcnow().isoformat()
+        start_date = (datetime.now(datetime.UTC) - timedelta(days=1)).isoformat()
+        end_date = datetime.now(datetime.UTC).isoformat()
         
         response = client.post('/api/security/analysis/events',
                              headers=finance_headers,

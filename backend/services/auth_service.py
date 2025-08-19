@@ -40,7 +40,7 @@ class AuthService:
             user = cls._find_or_create_user(user_info)
             
             # Update last login
-            user.last_login = datetime.utcnow()
+            user.last_login = datetime.now(datetime.UTC)
             db.session.commit()
             
             # Log successful login
@@ -256,7 +256,7 @@ class AuthService:
         # Check if last login is within session timeout (8 hours)
         if user.last_login:
             session_timeout = timedelta(hours=8)
-            if datetime.utcnow() - user.last_login > session_timeout:
+            if datetime.now(datetime.UTC) - user.last_login > session_timeout:
                 return False
         
         return True
@@ -461,7 +461,7 @@ class AuthService:
                 'SESSION_CLEANUP_PERFORMED',
                 {
                     'cleaned_sessions': cleaned_count,
-                    'cleanup_time': datetime.utcnow().isoformat()
+                    'cleanup_time': datetime.now(datetime.UTC).isoformat()
                 }
             )
             
@@ -469,7 +469,7 @@ class AuthService:
                 'success': True,
                 'cleaned_count': cleaned_count,
                 'message': f'Cleaned up {cleaned_count} expired sessions',
-                'timestamp': datetime.utcnow().isoformat()
+                'timestamp': datetime.now(datetime.UTC).isoformat()
             }
             
         except Exception as e:
@@ -477,5 +477,5 @@ class AuthService:
                 'success': False,
                 'cleaned_count': 0,
                 'error': str(e),
-                'timestamp': datetime.utcnow().isoformat()
+                'timestamp': datetime.now(datetime.UTC).isoformat()
             }

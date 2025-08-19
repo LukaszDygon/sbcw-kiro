@@ -418,5 +418,5 @@ def health_check():
         'success': True,
         'service': 'reporting',
         'status': 'healthy',
-        'timestamp': datetime.utcnow().isoformat()
+        'timestamp': datetime.now(datetime.UTC).isoformat()
     }), 200

@@ -174,13 +174,13 @@ def get_user_details(user_id):
                 Transaction.sender_id == user_id,
                 Transaction.recipient_id == user_id
             ),
-            Transaction.created_at >= datetime.utcnow() - timedelta(days=30)
+            Transaction.created_at >= datetime.now(datetime.UTC) - timedelta(days=30)
         ).order_by(Transaction.created_at.desc()).limit(10).all()
         
         # Get recent audit logs (last 30 days)
         recent_audit_logs = AuditService.get_user_audit_logs(
             user_id, 
-            start_date=datetime.utcnow() - timedelta(days=30),
+            start_date=datetime.now(datetime.UTC) - timedelta(days=30),
             limit=10
         )
         

@@ -229,13 +229,13 @@ def get_security_status():
         threat_status = SecurityAuditService.monitor_real_time_threats()
         
         # Get recent security events (last 24 hours)
-        end_date = datetime.utcnow()
+        end_date = datetime.now(datetime.UTC)
         start_date = end_date - timedelta(hours=24)
         
         recent_analysis = SecurityAuditService.analyze_security_events(start_date, end_date)
         
         status = {
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(datetime.UTC).isoformat(),
             'overall_status': 'SECURE',
             'threat_level': threat_status['threat_level'],
             'active_threats': len(threat_status['active_threats']),
@@ -331,7 +331,7 @@ def get_security_alerts():
                     'severity': alert['severity'],
                     'description': alert['description'],
                     'count': alert.get('count', 1),
-                    'timestamp': alert.get('timestamp', datetime.utcnow().isoformat()),
+                    'timestamp': alert.get('timestamp', datetime.now(datetime.UTC).isoformat()),
                     'status': 'ACTIVE'
                 })
         
@@ -344,7 +344,7 @@ def get_security_alerts():
                     'severity': threat['severity'],
                     'description': threat['description'],
                     'count': threat.get('count', 1),
-                    'timestamp': datetime.utcnow().isoformat(),
+                    'timestamp': datetime.now(datetime.UTC).isoformat(),
                     'status': 'ACTIVE'
                 })
         
@@ -362,7 +362,7 @@ def get_security_alerts():
                 'total_count': len(alerts),
                 'active_count': len([a for a in alerts if a['status'] == 'ACTIVE']),
                 'critical_count': len([a for a in alerts if a['severity'] == 'CRITICAL']),
-                'timestamp': datetime.utcnow().isoformat()
+                'timestamp': datetime.now(datetime.UTC).isoformat()
             }
         }), 200
         
@@ -434,7 +434,7 @@ def health_check():
         'success': True,
         'service': 'security',
         'status': 'healthy',
-        'timestamp': datetime.utcnow().isoformat(),
+        'timestamp': datetime.now(datetime.UTC).isoformat(),
         'features': {
             'threat_monitoring': True,
             'fraud_detection': True,

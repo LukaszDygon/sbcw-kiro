@@ -20,8 +20,8 @@ class TestReportingService:
             user1, user2 = sample_users[:2]
             account1, account2 = sample_accounts[:2]
             
-            start_date = datetime.utcnow() - timedelta(days=30)
-            end_date = datetime.utcnow()
+            start_date = datetime.now(datetime.UTC) - timedelta(days=30)
+            end_date = datetime.now(datetime.UTC)
             
             # Create transactions
             transaction1 = Transaction(
@@ -73,8 +73,8 @@ class TestReportingService:
         with app.app_context():
             user1, user2 = sample_users[:2]
             
-            start_date = datetime.utcnow() - timedelta(days=30)
-            end_date = datetime.utcnow()
+            start_date = datetime.now(datetime.UTC) - timedelta(days=30)
+            end_date = datetime.now(datetime.UTC)
             
             # Create test transaction
             transaction = Transaction(
@@ -122,8 +122,8 @@ class TestReportingService:
         with app.app_context():
             user1 = sample_users[0]
             
-            start_date = datetime.utcnow() - timedelta(days=30)
-            end_date = datetime.utcnow()
+            start_date = datetime.now(datetime.UTC) - timedelta(days=30)
+            end_date = datetime.now(datetime.UTC)
             
             # Create test event
             event = EventAccount(
@@ -171,8 +171,8 @@ class TestReportingService:
         with app.app_context():
             user1, user2 = sample_users[:2]
             
-            start_date = datetime.utcnow() - timedelta(days=30)
-            end_date = datetime.utcnow()
+            start_date = datetime.now(datetime.UTC) - timedelta(days=30)
+            end_date = datetime.now(datetime.UTC)
             
             # Create test transactions
             transaction1 = Transaction(
@@ -323,8 +323,8 @@ class TestReportingService:
             
             # Valid parameters
             valid_params = {
-                'start_date': datetime.utcnow() - timedelta(days=30),
-                'end_date': datetime.utcnow(),
+                'start_date': datetime.now(datetime.UTC) - timedelta(days=30),
+                'end_date': datetime.now(datetime.UTC),
                 'user_id': user1.id
             }
             
@@ -334,7 +334,7 @@ class TestReportingService:
             
             # Invalid parameters - missing start_date
             invalid_params = {
-                'end_date': datetime.utcnow(),
+                'end_date': datetime.now(datetime.UTC),
                 'user_id': user1.id
             }
             
@@ -344,8 +344,8 @@ class TestReportingService:
             
             # Invalid parameters - start_date after end_date
             invalid_params = {
-                'start_date': datetime.utcnow(),
-                'end_date': datetime.utcnow() - timedelta(days=1),
+                'start_date': datetime.now(datetime.UTC),
+                'end_date': datetime.now(datetime.UTC) - timedelta(days=1),
                 'user_id': user1.id
             }
             
@@ -355,8 +355,8 @@ class TestReportingService:
             
             # Invalid parameters - non-existent user
             invalid_params = {
-                'start_date': datetime.utcnow() - timedelta(days=30),
-                'end_date': datetime.utcnow(),
+                'start_date': datetime.now(datetime.UTC) - timedelta(days=30),
+                'end_date': datetime.now(datetime.UTC),
                 'user_id': 'non-existent-user'
             }
             
@@ -369,8 +369,8 @@ class TestReportingService:
         with app.app_context():
             user1, user2, user3 = sample_users[:3]
             
-            start_date = datetime.utcnow() - timedelta(days=30)
-            end_date = datetime.utcnow()
+            start_date = datetime.now(datetime.UTC) - timedelta(days=30)
+            end_date = datetime.now(datetime.UTC)
             
             # Create transactions involving user1
             transaction1 = Transaction(

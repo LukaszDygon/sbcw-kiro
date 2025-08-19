@@ -103,7 +103,7 @@ class TestAuthenticationSecurity:
                 email='test@test.com', 
                 name='Test User'
             )
-            user.last_login = datetime.utcnow() - timedelta(hours=9)  # 9 hours ago
+            user.last_login = datetime.now(datetime.UTC) - timedelta(hours=9)  # 9 hours ago
             db.session.add(user)
             db.session.commit()
             

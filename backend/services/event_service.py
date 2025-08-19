@@ -73,7 +73,7 @@ class EventService:
         if event_data.get('deadline'):
             try:
                 deadline = datetime.fromisoformat(event_data['deadline'].replace('Z', '+00:00'))
-                if deadline <= datetime.utcnow():
+                if deadline <= datetime.now(datetime.UTC):
                     raise ValueError("Deadline must be in the future")
             except (ValueError, TypeError):
                 raise ValueError("Deadline must be a valid ISO format date in the future")
@@ -553,13 +553,13 @@ class EventService:
         Returns:
             List of expiring events
         """
-        deadline_threshold = datetime.utcnow() + timedelta(hours=hours)
+        deadline_threshold = datetime.now(datetime.UTC) + timedelta(hours=hours)
         
         return EventAccount.query.filter(
             EventAccount.status == EventStatus.ACTIVE,
             EventAccount.deadline.isnot(None),
             EventAccount.deadline <= deadline_threshold,
-            EventAccount.deadline > datetime.utcnow()
+            EventAccount.deadline > datetime.now(datetime.UTC)
         ).all()
     
     @classmethod
@@ -573,7 +573,7 @@ class EventService:
         Returns:
             Dictionary with event statistics
         """
-        start_date = datetime.utcnow() - timedelta(days=days)
+        start_date = datetime.now(datetime.UTC) - timedelta(days=days)
         
         # Get events created in period
         events_created = EventAccount.query.filter(
@@ -770,7 +770,7 @@ class EventService:
             if event_data.get('deadline'):
                 try:
                     deadline = datetime.fromisoformat(event_data['deadline'].replace('Z', '+00:00'))
-                    if deadline <= datetime.utcnow():
+                    if deadline <= datetime.now(datetime.UTC):
                         validation_result['valid'] = False
                         validation_result['errors'].append({
                             'code': 'INVALID_DEADLINE',

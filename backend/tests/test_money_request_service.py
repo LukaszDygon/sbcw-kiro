@@ -251,7 +251,7 @@ class TestMoneyRequestService:
             )
             
             # Manually set expiry to past
-            money_request.expires_at = datetime.utcnow() - timedelta(hours=1)
+            money_request.expires_at = datetime.now(datetime.UTC) - timedelta(hours=1)
             db.session.add(money_request)
             db.session.commit()
             
@@ -516,7 +516,7 @@ class TestMoneyRequestService:
             )
             
             # Manually set expiry to past
-            money_request.expires_at = datetime.utcnow() - timedelta(hours=1)
+            money_request.expires_at = datetime.now(datetime.UTC) - timedelta(hours=1)
             db.session.add(money_request)
             db.session.commit()
             

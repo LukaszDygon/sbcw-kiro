@@ -189,7 +189,7 @@ class TestFraudDetection:
                     amount=Decimal('25.00'),
                     transaction_type=TransactionType.TRANSFER,
                     status=TransactionStatus.COMPLETED,
-                    created_at=datetime.utcnow() - timedelta(days=i)
+                    created_at=datetime.now(datetime.UTC) - timedelta(days=i)
                 )
                 db_session.add(transaction)
             db_session.commit()
@@ -213,7 +213,7 @@ class TestFraudDetection:
             user = sample_users[0]
             
             # Create many transactions today
-            today = datetime.utcnow().date()
+            today = datetime.now(datetime.UTC).date()
             for i in range(25):
                 transaction = Transaction(
                     sender_id=user.id,
@@ -270,7 +270,7 @@ class TestFraudDetection:
                     action_type='USER_LOGIN',
                     entity_type='User',
                     ip_address=ip,
-                    created_at=datetime.utcnow() - timedelta(hours=i)
+                    created_at=datetime.now(datetime.UTC) - timedelta(hours=i)
                 )
                 db_session.add(audit_log)
             db_session.commit()

@@ -23,7 +23,7 @@ def health_check():
     try:
         health_status = {
             'status': 'healthy',
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(datetime.UTC).isoformat(),
             'version': '1.0.0',
             'environment': os.environ.get('FLASK_ENV', 'production'),
             'checks': {}
@@ -96,7 +96,7 @@ def health_check():
     except Exception as e:
         return jsonify({
             'status': 'unhealthy',
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(datetime.UTC).isoformat(),
             'error': f'Health check failed: {str(e)}'
         }), 503
 
@@ -120,7 +120,7 @@ def system_info():
             'runtime': {
                 'python_version': sys.version,
                 'platform': sys.platform,
-                'timestamp': datetime.utcnow().isoformat()
+                'timestamp': datetime.now(datetime.UTC).isoformat()
             },
             'features': {
                 'microsoft_sso': bool(os.environ.get('MICROSOFT_CLIENT_ID')),
@@ -153,7 +153,7 @@ def system_statistics():
     """
     try:
         stats = {
-            'timestamp': datetime.utcnow().isoformat(),
+            'timestamp': datetime.now(datetime.UTC).isoformat(),
             'users': {
                 'total': User.query.count(),
                 'active': User.query.filter_by(account_status='ACTIVE').count(),
@@ -181,7 +181,7 @@ def system_statistics():
             'audit_logs': {
                 'total': AuditLog.query.count(),
                 'last_24h': AuditLog.query.filter(
-                    AuditLog.created_at >= datetime.utcnow() - datetime.timedelta(days=1)
+                    AuditLog.created_at >= datetime.now(datetime.UTC) - datetime.timedelta(days=1)
                 ).count()
             }
         }
@@ -499,7 +499,7 @@ def version_info():
         'build_date': '2024-01-01',
         'api_version': 'v1',
         'environment': os.environ.get('FLASK_ENV', 'production'),
-        'timestamp': datetime.utcnow().isoformat()
+        'timestamp': datetime.now(datetime.UTC).isoformat()
     }), 200
 
 @system_bp.route('/ping', methods=['GET'])
@@ -512,7 +512,7 @@ def ping():
     """
     return jsonify({
         'message': 'pong',
-        'timestamp': datetime.utcnow().isoformat(),
+        'timestamp': datetime.now(datetime.UTC).isoformat(),
         'status': 'ok'
     }), 200
 

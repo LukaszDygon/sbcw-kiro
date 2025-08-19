@@ -31,7 +31,7 @@ class SchedulerService:
         """Log job execution results"""
         log_entry = {
             'job_name': job_name,
-            'executed_at': datetime.utcnow().isoformat(),
+            'executed_at': datetime.now(datetime.UTC).isoformat(),
             'success': success,
             'result': result,
             'error': error
@@ -155,7 +155,7 @@ class SchedulerService:
                 'success': True,
                 'message': 'Scheduler started successfully',
                 'jobs_scheduled': len(self.scheduler.get_jobs()),
-                'started_at': datetime.utcnow().isoformat()
+                'started_at': datetime.now(datetime.UTC).isoformat()
             }
             
         except Exception as e:
@@ -187,7 +187,7 @@ class SchedulerService:
             return {
                 'success': True,
                 'message': 'Scheduler stopped successfully',
-                'stopped_at': datetime.utcnow().isoformat()
+                'stopped_at': datetime.now(datetime.UTC).isoformat()
             }
             
         except Exception as e:
@@ -222,7 +222,7 @@ class SchedulerService:
                 'jobs': jobs,
                 'job_count': len(jobs),
                 'recent_executions': self.job_history[-10:] if self.job_history else [],
-                'checked_at': datetime.utcnow().isoformat()
+                'checked_at': datetime.now(datetime.UTC).isoformat()
             }
             
         except Exception as e:
@@ -262,7 +262,7 @@ class SchedulerService:
             return {
                 'success': True,
                 'message': f'Job {job_id} executed manually',
-                'executed_at': datetime.utcnow().isoformat()
+                'executed_at': datetime.now(datetime.UTC).isoformat()
             }
             
         except Exception as e:
@@ -343,7 +343,7 @@ class SchedulerService:
                 'success': True,
                 'message': f'Custom job {job_name} added successfully',
                 'job_id': job_id,
-                'added_at': datetime.utcnow().isoformat()
+                'added_at': datetime.now(datetime.UTC).isoformat()
             }
             
         except Exception as e:
@@ -384,7 +384,7 @@ class SchedulerService:
             return {
                 'success': True,
                 'message': f'Job {job_id} removed successfully',
-                'removed_at': datetime.utcnow().isoformat()
+                'removed_at': datetime.now(datetime.UTC).isoformat()
             }
             
         except Exception as e:

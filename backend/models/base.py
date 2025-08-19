@@ -24,4 +24,4 @@ def generate_uuid():
 
 def utc_now():
     """Get current UTC timestamp"""
-    return datetime.utcnow()
+    return datetime.now(datetime.UTC)

@@ -100,7 +100,7 @@ class TestNotificationService:
             db.session.commit()
             
             # Test notification creation
-            deadline = datetime.utcnow() + timedelta(days=1)
+            deadline = datetime.now(datetime.UTC) + timedelta(days=1)
             notification = NotificationService.create_event_deadline_notification(
                 recipient_id=creator.id,
                 event_name='Team Party',
@@ -387,7 +387,7 @@ class TestNotificationService:
                 status=NotificationStatus.READ
             )
             # Manually set old created_at date
-            old_notification.created_at = datetime.utcnow() - timedelta(days=95)
+            old_notification.created_at = datetime.now(datetime.UTC) - timedelta(days=95)
             
             # Create recent notification
             recent_notification = Notification(

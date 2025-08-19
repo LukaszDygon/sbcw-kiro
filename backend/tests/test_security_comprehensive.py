@@ -82,7 +82,7 @@ class TestAuthentication:
             # Create an expired token for testing
             expired_payload = {
                 'user_id': '1',
-                'exp': datetime.utcnow() - timedelta(hours=1)
+                'exp': datetime.now(datetime.UTC) - timedelta(hours=1)
             }
             expired_token = jwt.encode(expired_payload, 'test_secret', algorithm='HS256')
             

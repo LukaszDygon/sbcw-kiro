@@ -30,7 +30,7 @@ class TestEventService:
                 'name': 'Team Lunch',
                 'description': 'Monthly team lunch gathering',
                 'target_amount': Decimal('200.00'),
-                'deadline': datetime.utcnow() + timedelta(days=7)
+                'deadline': datetime.now(datetime.UTC) + timedelta(days=7)
             }
             
             result = EventService.create_event_account(
@@ -447,7 +447,7 @@ class TestEventService:
             db.session.commit()
             
             # Test event creation with past deadline
-            past_deadline = datetime.utcnow() - timedelta(days=1)
+            past_deadline = datetime.now(datetime.UTC) - timedelta(days=1)
             event_data = {
                 'name': 'Past Event',
                 'description': 'Event with past deadline',

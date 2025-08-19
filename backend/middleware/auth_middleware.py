@@ -45,8 +45,6 @@ def auth_required(f):
         # Check if development mode with auth disabled
         if current_app.config.get('DISABLE_AUTH', False):
             
-            print("🚀 Development mode: Bypassing authentication")
-            
             # Get the real admin user from database
             try:
                 admin_user = User.query.filter(
@@ -58,7 +56,6 @@ def auth_required(f):
                     # Set real admin user in Flask g object
                     g.current_user = admin_user
                     g.current_user_id = admin_user.id
-                    print(f"🚀 Development mode: Using real admin user {admin_user.email}")
                 else:
                     # Fallback to development user if no admin found
                     dev_user = DevelopmentUser(
@@ -67,10 +64,8 @@ def auth_required(f):
                     )
                     g.current_user = dev_user
                     g.current_user_id = dev_user.id
-                    print("🚀 Development mode: Using fallback development user")
                     
             except Exception as e:
-                print(f"🚀 Development mode: Database error, using fallback user: {e}")
                 # Fallback to development user on database error
                 dev_user = DevelopmentUser(
                     user_id=current_app.config.get('DEV_USER_ID', 'dev-admin-001'),
@@ -149,7 +144,6 @@ def role_required(required_role: UserRole):
             
             # Check if development mode with auth disabled
             if current_app.config.get('DISABLE_AUTH', False):
-                print(f"🚀 Development mode: Bypassing role check for {required_role}")
                 return f(*args, **kwargs)
             
             if not AuthService.require_role(g.current_user_id, required_role):

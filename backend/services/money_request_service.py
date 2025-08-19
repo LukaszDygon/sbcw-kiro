@@ -164,6 +164,8 @@ class MoneyRequestService:
                 raise ValueError("This request has already been responded to")
         
         try:
+            # Fetch recipient user for notification context
+            recipient = User.query.get(money_request.recipient_id)
             if approved:
                 # Approve the request
                 money_request.approve()

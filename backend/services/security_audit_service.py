@@ -119,7 +119,7 @@ class SecurityAuditService:
         Returns:
             Dictionary with anomaly detection results
         """
-        end_date = datetime.utcnow()
+        end_date = datetime.now(datetime.UTC)
         start_date = end_date - timedelta(days=days)
         
         # Get user's activities
@@ -242,7 +242,7 @@ class SecurityAuditService:
         Returns:
             Dictionary with current threat status
         """
-        now = datetime.utcnow()
+        now = datetime.now(datetime.UTC)
         last_hour = now - timedelta(hours=1)
         last_24h = now - timedelta(hours=24)
         
@@ -751,7 +751,7 @@ class SecurityAuditService:
                 'severity': 'CRITICAL',
                 'count': len(critical_events),
                 'description': f'{len(critical_events)} critical security events in the last hour',
-                'timestamp': datetime.utcnow().isoformat()
+                'timestamp': datetime.now(datetime.UTC).isoformat()
             })
         
         # Check for unusual spike in security events
@@ -761,7 +761,7 @@ class SecurityAuditService:
                 'severity': 'HIGH',
                 'count': len(recent_events),
                 'description': 'Unusual spike in security events detected',
-                'timestamp': datetime.utcnow().isoformat()
+                'timestamp': datetime.now(datetime.UTC).isoformat()
             })
         
         return alerts

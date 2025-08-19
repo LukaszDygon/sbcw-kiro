@@ -37,7 +37,6 @@ class MoneyRequest(db.Model):
     __table_args__ = (
         CheckConstraint('amount > 0', name='ck_money_request_positive_amount'),
         CheckConstraint('requester_id != recipient_id', name='ck_money_request_different_users'),
-        CheckConstraint('expires_at > created_at', name='ck_money_request_future_expiry'),
         Index('idx_money_request_requester_created', 'requester_id', 'created_at'),
         Index('idx_money_request_recipient_status', 'recipient_id', 'status'),
         Index('idx_money_request_status_expires', 'status', 'expires_at'),
